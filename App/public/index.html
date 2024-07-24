@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Obscura</title>
+  <!-- Default Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link href="styles.css" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="Obscuraslogo.svg">
+
+</head>
+
+<body class="bg_black">
+
+  <!-- Available GPUs Modal -->
+<div class="modal fade" id="popServer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Available GPUs</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <table class="table bg_w h6" style="color: #000000;">
+                  <thead>
+                      <tr>
+                          <th scope="col" style="border: 2px solid black;">Id</th>
+                          <th scope="col" style="border: 2px solid black;">Device</th>
+                      </tr>
+                  </thead>
+                  <tbody id="tableServer">
+                      <!-- Table content goes here -->
+                  </tbody>
+              </table>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+      </div>
+  </div>
+</div>
+
+<!-- Error Modal -->
+<div class="modal fade" id="popError" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header bg-danger">
+              <h5 class="modal-title text-white" id="exampleModalLabel1">Error</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true" class="text-white">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body" id="errorBody">
+              <!-- Modal body content goes here -->
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary text-dark" data-dismiss="modal">Ok</button>
+          </div>
+      </div>
+  </div>
+</div>
+
+  <nav class="navbar navbar-expand-sm navbar-light" style="background-color: #2a2828; border-bottom: solid rgb(249, 230, 230) 1px; margin: 2px;">
+    <span style="display: contents;">
+      <img src="Obscuraslogo.svg" class="img-fluid Obscuraslogo" >
+    </span>
+    <div class="navbar-brand titleBrand" href="#" style="color: #f8f9fa; padding: 0px;">Obscura</div>
+
+      
+    </div>
+      <button class="img-button" id="server_button">
+        <img src="4617742.png" alt="Theme 1" class="img-fluid" style="width: 50px; padding: 3px;">
+        <label style="color: #f8f9fa; font-size: small;" id="gpuName"></label>
+      </button>  
+  </nav>
+
+  <div class="container-fluid h-98">
+    <div class="row h-100 w-100">
+      <!-- Navigation Column -->
+      <div class="col-md-3 d-flex flex-column nav-column bg_black ml-2" style="overflow-y: scroll;">
+        <ul class="nav flex-column w-100 bg_black">
+          <li class="nav-item mb-2">
+            <h5 class="bg_w">Prompt</h5>
+            <textarea class="form-control border border-gray w-100" id="prompt" style="background-color: #2a2828; color: white;" placeholder="Write a description of the image and let your imagination soar." id="exampleFormControlTextarea1" rows="3"></textarea>
+            <hr class="bg_violet" />
+          </li>
+          <li class="nav-item bg_black mb-2">
+            <h5 class="bg_w">Theme</h5>
+            <div class="row">
+              <div class="col">
+                <button class="img-button buttonChangeTheme select" id="theme_none">
+                  <img src="none dataset.jpg" alt="Theme 1" class="img-fluid">
+                  <label class="bg_w">None</label>
+                </button>
+              </div>
+              <div class="col">
+                <button class="img-button buttonChangeTheme" id="theme_bender">
+                  <img src="1064407.jpeg" alt="Theme 1" class="img-fluid">
+                  <label class="bg_w">Bender</label>
+                </button>
+              </div>
+              <div class="col">
+                <button class="img-button buttonChangeTheme" id="theme_simpson">
+                  <img src="dataset-card.jpg" alt="Theme 2" class="img-fluid img-thumbnail">
+                  <label class="bg_w">Simpson</label>
+                </button>
+              </div>
+            </div>
+            <hr class="bg_violet" />
+          </li>
+          <li class="nav-item bg_black mb-2">
+            <h5 class="bg_w">Image size</h5>
+            <div class="row">
+              <div class="col">
+                <button class="img-button buttonChangeSize select" id="imageSizes_0">
+                  <img src="aspect-ratio.png" alt="ratio 1" class="img-fluid" style="background-color: #3b3636;">
+                  <label class="bg_w">512*512</label>
+                </button>
+              </div>
+              <div class="col">
+                <button class="img-button buttonChangeSize" id="imageSizes_1">
+                  <img src="aspect-ratio2.png" alt="ratio 2" class="img-fluid" style="background-color: #3b3636;">
+                  <label class="bg_w">768*512</label>
+                </button>
+              </div>
+              <div class="col">
+                <button class="img-button buttonChangeSize" id="imageSizes_2">
+                  <img src="aspect-ratio3.png" alt="ratio 3" class="img-fluid" style="background-color: #3b3636;">
+                  <label class="bg_w">512*768</label>
+                </button>
+              </div>
+            </div>
+            <hr class="bg_violet" />
+          </li>
+
+          <li class="nav-item bg_black mb-2">
+            <h5 class="bg_w">Guidance Scale</h5>
+            <div class="row align-items-center">
+              <div class="col">
+                <input type="range" id="gScale" class="form-range w-100 p-3" value="9" min="9" max="20">
+              </div>
+              <div class="col-auto mb-1">
+                <span id="gScaleValue" class="bg_w">9</span>
+              </div>
+            </div>
+            <label class="bg_w">Controls how closely obscura adheres to the text prompt</label>
+            <hr class="bg_violet" />
+          </li>
+          <li class="nav-item bg_black mb-2">
+            <h5 class="bg_w">Image Quality</h5>
+            <div class="row align-items-center">
+              <div class="col">
+                <input type="range" id="iQuality" class="form-range w-100 p-3" value="40" min="20" max="50">
+              </div>
+              <div class="col-auto  mb-1">
+                <span id="iQualityValue" class="bg_w">40</span>
+              </div>
+            </div>
+            <label class="bg_w">The higher the image quality, the longer it takes to generate the image. Conversely, the lower the image quality, the faster the image generation process.</label>
+            <hr class="bg_violet" />
+          </li>
+
+
+        </ul>
+      </div>
+      <div class="col-md-1 d-flex justify-content-center align-items-center nav-column bg_black">
+        <button class="img-button" style="margin-left: -10px;" id="submit">
+          <img src="go-1.png" alt="" class="img-fluid" style="border-radius: 500px; width: 85px;">
+        </button>
+      </div>
+      <div class="col-md-7 content-column m-auto">
+        <div class="">
+            <div class="row" style="background-color: #ffffff; height: 59vh; border-radius: 10px; border: solid black 2px; position: relative;">
+                <!-- sdasdsdsd -->
+                <img src="" id="imageOut" alt="" srcset="" style="margin: auto; height: -webkit-fill-available; display: none;" class="img-fluid">
+                <div  id="loaderGif" style="background-image: url(loaderGif.gif); width: 100%; display: none; margin: 3px; border-radius: 5px;"></div>
+                <!-- <img src="loaderGif.gif" alt="" id="loaderGif" style="margin: auto; height: -webkit-fill-available; display: none;" class="img-fluid"> -->
+                <button id="downloadBtn" style="position: absolute; bottom: 10px; right: 10px; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Download Image</button>
+            </div>
+          <hr class="bg_violet" />
+
+          <div id="accordion">
+            <div class="card">
+              <div class="card-header" id="headingOne">
+                <button class="btn" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" style="width: 100%;">
+                  <h6 style="color: #ffffff;">Examples</h6>
+                </button>
+              </div>
+          
+              <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="card-body">
+                  <div class="row bg_w" style="background-color: rgb(42, 41, 41); height: 22vh; overflow-y: scroll; border: rgb(154, 153, 153) 1px solid;">
+                    <table class="table table-bordered bg_w h6" style="color: #f3edfa;">
+                      <thead>
+                        <tr>
+                          <th scope="col">Prompt</th>
+                          <th scope="col">Guidance Scale</th>
+                          <th scope="col">Dataset</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr class="examples" id="0">
+                          <td>Bart Simpson in Garden</td>
+                          <td>10</td>
+                          <td>Simpson</td>
+                        </tr>
+                        <tr class="examples" id="1">
+                          <td>شخصية بارت سمبسنز في معبد مصر قديما</td>
+                          <td>10</td>
+                          <td>Simpson</td>
+                        </tr>
+                        <tr class="examples" id="2">
+                          <td>Bender In Garden</td>
+                          <td>10</td>
+                          <td>Bender</td>
+                        </tr>
+                        <tr class="examples" id="3">
+                          <td>Bender In Garden</td>
+                          <td>10</td>
+                          <td>None</td>
+                        </tr>
+                        <tr class="examples" id="4">
+                          <td>سيارة في وسط البحر بجوار منزل كبير</td>
+                          <td>10</td>
+                          <td>None</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>                </div>
+              </div>
+            </div>
+          </div>
+         
+        </div>
+      </div>
+    </div>
+  </div>
+  	<!--begin::Page loading(append to body)-->
+      <div id="preloader" style="background-color: #2a28285b; display: none;">
+        <div id="loader"></div>
+      </div>
+	<!--end::Page loading-->
+
+  <!-- Bootstrap JS, Popper.js, and jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <!-- Add Firebase products that you want to use -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <script src="scripts.js"></script>
+
+</body>
+
+</html>
